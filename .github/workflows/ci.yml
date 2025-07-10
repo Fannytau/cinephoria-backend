@@ -8,10 +8,6 @@ on:
 jobs:
   tests-backend:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        # Se placer dans le sous-dossier cloné qui porte le nom de ton repo
-        working-directory: ./cinephoria-backend
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
