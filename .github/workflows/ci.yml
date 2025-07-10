@@ -7,11 +7,11 @@ on:
     branches: [ main ]
 
 jobs:
-  backend-tests:
+  tests-backend:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: .
+    env:
+      # Pour que pytest voie ton package app
+      PYTHONPATH: ${{ github.workspace }}
     steps:
       - uses: actions/checkout@v3
 
@@ -28,8 +28,6 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run backend tests
-        env:
-          PYTHONPATH: ${{ github.workspace }}
         run: |
           source .venv/bin/activate
           pytest -q
