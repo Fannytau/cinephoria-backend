@@ -2,16 +2,18 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   tests-backend:
     runs-on: ubuntu-latest
-
+    defaults:
+      run:
+        # Se placer dans le sous-dossier cloné qui porte le nom de ton repo
+        working-directory: ./cinephoria-backend
     steps:
-      - name: Checkout du code
+      - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Setup Python 3.9
@@ -19,14 +21,14 @@ jobs:
         with:
           python-version: '3.9'
 
-      - name: Installer les dépendances
+      - name: Install dependencies
         run: |
           python -m venv .venv
           source .venv/bin/activate
           pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Lancer les tests backend
+      - name: Run backend tests
         run: |
           source .venv/bin/activate
           pytest -q
