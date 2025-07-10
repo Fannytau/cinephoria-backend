@@ -7,13 +7,15 @@ on:
     branches: [ main ]
 
 jobs:
-  backend:
-    name: Backend Tests
+  backend-tests:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: .
     steps:
       - uses: actions/checkout@v3
 
-      - name: Setup Python
+      - name: Setup Python 3.9
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
@@ -26,8 +28,8 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run backend tests
+        env:
+          PYTHONPATH: ${{ github.workspace }}
         run: |
           source .venv/bin/activate
           pytest -q
-          
-  # Si ton frontend est dans un repo séparé, tu créeras un workflow identique là-bas.
