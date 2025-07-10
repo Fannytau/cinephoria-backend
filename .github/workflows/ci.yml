@@ -9,9 +9,6 @@ on:
 jobs:
   tests-backend:
     runs-on: ubuntu-latest
-    env:
-      # Pour que pytest voie ton package app
-      PYTHONPATH: ${{ github.workspace }}
     steps:
       - uses: actions/checkout@v3
 
@@ -20,14 +17,18 @@ jobs:
         with:
           python-version: '3.9'
 
-      - name: Install dependencies
+      - name: Install deps & run tests
         run: |
+          # on rentre dans le dossier qui contient app/ et tests/
+          cd cinephoria-backend
+
+          # création du venv
           python -m venv .venv
           source .venv/bin/activate
+
+          # installation des requirements
           pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run backend tests
-        run: |
-          source .venv/bin/activate
+          # exécution des tests
           pytest -q
